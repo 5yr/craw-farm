@@ -1,0 +1,3 @@
+[websites]
+[websites.v2ex]
+base = "https://www.v2ex.com"
