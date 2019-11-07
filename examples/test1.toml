@@ -1,0 +1,5 @@
+name = "github-trending-and-v2ex-posts"
+seq = [
+  "github.trending"
+  "v2ex.post.all"
+]
