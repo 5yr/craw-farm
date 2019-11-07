@@ -1,3 +1,5 @@
 [websites]
 [websites.v2ex]
 base = "https://www.v2ex.com"
+[websites.github]
+base = "https://www.github.com"
