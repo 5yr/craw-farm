@@ -16,7 +16,6 @@ type GitHubSite struct {
 func NewGitHub() *GitHubSite {
 	v := GitHubSite{}
 	err := setting.GetSiteConfig("github", &v)
-
 	if err != nil {
 		fmt.Println(err)
 		return nil
@@ -28,7 +27,22 @@ func (v GitHubSite) generateSubpageURL(pageName string) string {
 	return fmt.Sprintf("%s/%s", v.Base, pageName)
 }
 
-func (v GitHubSite) FetchTrending() {
+func (g GitHubSite) list() []string {
+	return []string{"trending"}
+}
+
+func (g GitHubSite) run(params ...string) (json []byte, err error) {
+	jobName := params[0]
+
+	switch jobName {
+	case "trending":
+		return g.FetchTrending()
+	}
+	return nil, fmt.Errorf("job name not exist")
+}
+
+func (v GitHubSite) FetchTrending() (json []byte, err error) {
+	res := make([]string, 0)
 	service.JQGet(v.generateSubpageURL("trending"), func(doc *goquery.Document) {
 		doc.Find("main div.Box article").Each(func(i int, s *goquery.Selection) {
 			repoLink, _ := s.Find("h1 a").Attr("href")
@@ -39,7 +53,10 @@ func (v GitHubSite) FetchTrending() {
 			// the repoLinkSplit[0] == ""
 			owner := repoLinkSplit[1]
 			repo := repoLinkSplit[2]
-			fmt.Println(owner, repo)
+			res = append(res, fmt.Sprintf(owner, repo))
 		})
 	})
+
+	resB := strings.Join(res, ",")
+	return []byte(resB), nil
 }

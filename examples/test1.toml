@@ -1,5 +1,6 @@
 name = "github-trending-and-v2ex-posts"
 seq = [
+  "v2ex.post.all",
+  "v2ex.post.hot",
   "github.trending"
-  "v2ex.post.all"
 ]
