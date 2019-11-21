@@ -1,4 +1,4 @@
-module github.com/5yr/nnew
+module github.com/5yr/craw-farm
 
 go 1.13
 
